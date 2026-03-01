@@ -6,11 +6,34 @@ import { useSession } from '@/context/SessionContext';
 import { useLocation } from 'wouter';
 import NumericKeypad from '@/components/common/NumericKeypad';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import slideSuryaghar from '@assets/Picsart_26-03-01_23-23-13-947_1772393768205.png';
+import slideUjjwala from '@assets/Picsart_26-03-01_23-35-07-959_1772393768205.png';
 
 type AuthStep = 'select' | 'mobile-input' | 'otp-input' | 'aadhaar-input' | 'verifying';
 
-const bannerSlides = [
+type BannerSlide = {
+  type: 'image';
+  image: string;
+} | {
+  type: 'gradient';
+  gradient: string;
+  titleEn: string;
+  subtitleEn: string;
+  titleHi: string;
+  subtitleHi: string;
+};
+
+const bannerSlides: BannerSlide[] = [
   {
+    type: 'image',
+    image: slideSuryaghar,
+  },
+  {
+    type: 'image',
+    image: slideUjjwala,
+  },
+  {
+    type: 'gradient',
     gradient: 'linear-gradient(135deg, #004A7C 0%, #006EB3 50%, #0288D1 100%)',
     titleEn: 'Empowering Citizen Services',
     subtitleEn: 'with Modern Tech - Digital India.',
@@ -18,6 +41,7 @@ const bannerSlides = [
     subtitleHi: 'आधुनिक तकनीक के साथ - डिजिटल इंडिया।',
   },
   {
+    type: 'gradient',
     gradient: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)',
     titleEn: 'Pay Bills, File Complaints',
     subtitleEn: 'All services at your fingertips.',
@@ -25,25 +49,12 @@ const bannerSlides = [
     subtitleHi: 'सभी सेवाएं आपकी उंगलियों पर।',
   },
   {
+    type: 'gradient',
     gradient: 'linear-gradient(135deg, #BF360C 0%, #E65100 50%, #F57C00 100%)',
     titleEn: 'Transparent & Accountable',
     subtitleEn: 'Government services made simple.',
     titleHi: 'पारदर्शी और जवाबदेह',
     subtitleHi: 'सरकारी सेवाएं सरल बनाई गईं।',
-  },
-  {
-    gradient: 'linear-gradient(135deg, #4A148C 0%, #6A1B9A 50%, #8E24AA 100%)',
-    titleEn: 'Grievance Redressal',
-    subtitleEn: 'Your voice matters. File & track complaints.',
-    titleHi: 'शिकायत निवारण',
-    subtitleHi: 'आपकी आवाज़ मायने रखती है।',
-  },
-  {
-    gradient: 'linear-gradient(135deg, #006064 0%, #00838F 50%, #0097A7 100%)',
-    titleEn: 'Water & Sanitation Services',
-    subtitleEn: 'Clean water for every household.',
-    titleHi: 'जल एवं स्वच्छता सेवाएं',
-    subtitleHi: 'हर घर में स्वच्छ जल।',
   },
 ];
 
@@ -175,31 +186,40 @@ export default function Welcome() {
   return (
     <div className="flex-1 flex flex-col animate-fadeIn">
       <div className="relative w-full overflow-hidden" style={{ height: '180px' }}>
-        <div
-          className="absolute inset-0 flex items-center justify-center transition-all duration-700"
-          style={{ background: slide.gradient }}
-        >
-          <div className="absolute inset-0 opacity-10">
-            <svg viewBox="0 0 800 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              <circle cx="650" cy="60" r="90" fill="white" opacity="0.08" />
-              <circle cx="150" cy="160" r="60" fill="white" opacity="0.05" />
-            </svg>
+        {slide.type === 'image' ? (
+          <img
+            src={slide.image}
+            alt="Government scheme banner"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700"
+            data-testid="img-carousel-banner"
+          />
+        ) : (
+          <div
+            className="absolute inset-0 flex items-center justify-center transition-all duration-700"
+            style={{ background: slide.gradient }}
+          >
+            <div className="absolute inset-0 opacity-10">
+              <svg viewBox="0 0 800 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                <circle cx="650" cy="60" r="90" fill="white" opacity="0.08" />
+                <circle cx="150" cy="160" r="60" fill="white" opacity="0.05" />
+              </svg>
+            </div>
+            <div className="relative z-10 text-center px-8">
+              <h2 className="text-[24px] font-bold text-white mb-1 drop-shadow-lg" data-testid="text-carousel-title">
+                {isHindi ? slide.titleHi : slide.titleEn}
+              </h2>
+              <p className="text-[16px] text-white/90 font-medium drop-shadow">
+                {isHindi ? slide.subtitleHi : slide.subtitleEn}
+              </p>
+            </div>
           </div>
-          <div className="relative z-10 text-center px-8">
-            <h2 className="text-[24px] font-bold text-white mb-1 drop-shadow-lg" data-testid="text-carousel-title">
-              {isHindi ? slide.titleHi : slide.titleEn}
-            </h2>
-            <p className="text-[16px] text-white/90 font-medium drop-shadow">
-              {isHindi ? slide.subtitleHi : slide.subtitleEn}
-            </p>
-          </div>
-        </div>
+        )}
 
         <button
           onClick={prevSlide}
@@ -236,19 +256,19 @@ export default function Welcome() {
           <svg viewBox="0 0 900 400" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
             <defs>
               <linearGradient id="saffron" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#FF9933" stopOpacity="0.18" />
-                <stop offset="50%" stopColor="#FF9933" stopOpacity="0.25" />
-                <stop offset="100%" stopColor="#FF9933" stopOpacity="0.12" />
+                <stop offset="0%" stopColor="#FF9933" stopOpacity="0.45" />
+                <stop offset="50%" stopColor="#FF9933" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#FF9933" stopOpacity="0.35" />
               </linearGradient>
               <linearGradient id="flagWhite" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.1" />
-                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.08" />
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.25" />
+                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.2" />
               </linearGradient>
               <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#138808" stopOpacity="0.15" />
-                <stop offset="50%" stopColor="#138808" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#138808" stopOpacity="0.1" />
+                <stop offset="0%" stopColor="#138808" stopOpacity="0.4" />
+                <stop offset="50%" stopColor="#138808" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#138808" stopOpacity="0.3" />
               </linearGradient>
             </defs>
             <path d="M-100,0 Q100,30 300,10 T700,40 T1000,20 V130 Q800,100 500,130 T100,110 T-100,130Z" fill="url(#saffron)">
@@ -265,7 +285,7 @@ export default function Welcome() {
                 M-100,120 Q150,150 350,130 T750,160 T1000,140 V270 Q800,240 500,270 T100,250 T-100,260Z
               " />
             </path>
-            <circle cx="450" cy="200" r="28" fill="none" stroke="#000080" strokeWidth="1.5" opacity="0.07">
+            <circle cx="450" cy="200" r="28" fill="none" stroke="#000080" strokeWidth="2" opacity="0.15">
               <animateTransform attributeName="transform" type="rotate" from="0 450 200" to="360 450 200" dur="20s" repeatCount="indefinite" />
             </circle>
             {[...Array(24)].map((_, i) => {
@@ -274,7 +294,7 @@ export default function Welcome() {
               const y1 = 200 + 22 * Math.sin(angle);
               const x2 = 450 + 28 * Math.cos(angle);
               const y2 = 200 + 28 * Math.sin(angle);
-              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#000080" strokeWidth="1" opacity="0.05" />;
+              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#000080" strokeWidth="1.5" opacity="0.12" />;
             })}
             <path d="M-100,260 Q150,290 350,270 T750,300 T1000,280 V400 Q800,380 500,400 T100,390 T-100,400Z" fill="url(#green)">
               <animate attributeName="d" dur="9s" repeatCount="indefinite" values="

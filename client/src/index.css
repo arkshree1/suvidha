@@ -239,7 +239,7 @@
 
 .animate-flag-swirl {
   animation: flagSwirl 12s ease-in-out infinite;
-  filter: blur(30px);
+  filter: blur(18px);
 }
 
 .high-contrast {
