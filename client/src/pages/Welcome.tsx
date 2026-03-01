@@ -231,7 +231,60 @@ export default function Welcome() {
         </div>
       </div>
 
-      <div className="flex-1 px-6 py-4 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-6 lg:gap-10">
+      <div className="flex-1 px-6 py-4 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-6 lg:gap-10 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none animate-flag-swirl" aria-hidden="true">
+          <svg viewBox="0 0 900 400" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="saffron" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF9933" stopOpacity="0.18" />
+                <stop offset="50%" stopColor="#FF9933" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#FF9933" stopOpacity="0.12" />
+              </linearGradient>
+              <linearGradient id="flagWhite" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.1" />
+                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.08" />
+              </linearGradient>
+              <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#138808" stopOpacity="0.15" />
+                <stop offset="50%" stopColor="#138808" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#138808" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            <path d="M-100,0 Q100,30 300,10 T700,40 T1000,20 V130 Q800,100 500,130 T100,110 T-100,130Z" fill="url(#saffron)">
+              <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+                M-100,0 Q100,30 300,10 T700,40 T1000,20 V130 Q800,100 500,130 T100,110 T-100,130Z;
+                M-100,20 Q100,0 300,30 T700,10 T1000,40 V140 Q800,120 500,100 T100,130 T-100,110Z;
+                M-100,0 Q100,30 300,10 T700,40 T1000,20 V130 Q800,100 500,130 T100,110 T-100,130Z
+              " />
+            </path>
+            <path d="M-100,120 Q150,150 350,130 T750,160 T1000,140 V270 Q800,240 500,270 T100,250 T-100,260Z" fill="url(#flagWhite)">
+              <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
+                M-100,120 Q150,150 350,130 T750,160 T1000,140 V270 Q800,240 500,270 T100,250 T-100,260Z;
+                M-100,140 Q150,120 350,150 T750,130 T1000,160 V260 Q800,270 500,240 T100,270 T-100,250Z;
+                M-100,120 Q150,150 350,130 T750,160 T1000,140 V270 Q800,240 500,270 T100,250 T-100,260Z
+              " />
+            </path>
+            <circle cx="450" cy="200" r="28" fill="none" stroke="#000080" strokeWidth="1.5" opacity="0.07">
+              <animateTransform attributeName="transform" type="rotate" from="0 450 200" to="360 450 200" dur="20s" repeatCount="indefinite" />
+            </circle>
+            {[...Array(24)].map((_, i) => {
+              const angle = (i * 15 * Math.PI) / 180;
+              const x1 = 450 + 22 * Math.cos(angle);
+              const y1 = 200 + 22 * Math.sin(angle);
+              const x2 = 450 + 28 * Math.cos(angle);
+              const y2 = 200 + 28 * Math.sin(angle);
+              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#000080" strokeWidth="1" opacity="0.05" />;
+            })}
+            <path d="M-100,260 Q150,290 350,270 T750,300 T1000,280 V400 Q800,380 500,400 T100,390 T-100,400Z" fill="url(#green)">
+              <animate attributeName="d" dur="9s" repeatCount="indefinite" values="
+                M-100,260 Q150,290 350,270 T750,300 T1000,280 V400 Q800,380 500,400 T100,390 T-100,400Z;
+                M-100,280 Q150,260 350,290 T750,270 T1000,300 V400 Q800,400 500,380 T100,400 T-100,390Z;
+                M-100,260 Q150,290 350,270 T750,300 T1000,280 V400 Q800,380 500,400 T100,390 T-100,400Z
+              " />
+            </path>
+          </svg>
+        </div>
         <div className="text-center lg:text-left lg:flex-1 lg:max-w-[380px]">
           <h1 className="text-[32px] font-bold text-[#212529] mb-1 leading-tight" data-testid="text-namaste">
             {t('namaste')} / Welcome
