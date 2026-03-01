@@ -1,0 +1,72 @@
+import { useState } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
+import Breadcrumb from '@/components/layout/Breadcrumb';
+import VirtualKeyboard from '@/components/common/VirtualKeyboard';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { CheckCircle } from 'lucide-react';
+import { useLocation } from 'wouter';
+
+export default function NewPngConnection() {
+  const { t } = useLanguage();
+  const [, navigate] = useLocation();
+  const [step, setStep] = useState<'form' | 'processing' | 'success'>('form');
+  const [activeField, setActiveField] = useState<'name' | 'address' | null>(null);
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [connType, setConnType] = useState('Residential');
+  const [fileName, setFileName] = useState('');
+  const refNo = `PNG-APP-${Date.now().toString().slice(-6)}`;
+
+  const handleSubmit = () => { setStep('processing'); setTimeout(() => setStep('success'), 1500); };
+
+  if (step === 'processing') return <div className="py-20"><LoadingSpinner message={t('processing')} /></div>;
+  if (step === 'success') return (
+    <div className="animate-fadeIn">
+      <Breadcrumb items={[{ label: t('gas'), path: '/gas' }, { label: t('newPngConnection') }]} />
+      <div className="px-6 py-6">
+        <div className="max-w-[500px] mx-auto bg-white rounded-2xl p-8 border-2 border-[#DEE2E6] text-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+          <CheckCircle size={64} className="text-[#28A745] mx-auto mb-4" />
+          <h2 className="text-[28px] font-bold text-[#212529] mb-2">{t('success')}</h2>
+          <p className="text-[18px] text-[#6C757D] mb-4">{t('applicationRef')}</p>
+          <div className="bg-[#E8F5E9] rounded-xl p-4 mb-6"><span className="text-[24px] font-bold text-[#2E7D32]">{refNo}</span></div>
+          <button onClick={() => navigate('/gas')} className="w-full h-[64px] rounded-xl text-[20px] font-semibold bg-[#006EB3] text-white active:bg-[#005a94] focus:outline-2 focus:outline-[#F26522] focus:outline-offset-2">{t('done')}</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="animate-fadeIn">
+      <Breadcrumb items={[{ label: t('gas'), path: '/gas' }, { label: t('newPngConnection') }]} />
+      <div className="px-6 py-6">
+        <h1 className="text-[28px] font-bold text-[#212529] mb-6">{t('newPngConnection')}</h1>
+        <div className="space-y-4 mb-6">
+          <div>
+            <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('name')}</label>
+            <div onClick={() => setActiveField('name')} className={`bg-white rounded-xl p-4 border-2 text-[18px] min-h-[56px] cursor-pointer ${activeField === 'name' ? 'border-[#006EB3]' : 'border-[#DEE2E6]'}`}>{name || <span className="text-[#6C757D]">Tap to enter name</span>}</div>
+          </div>
+          <div>
+            <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('address')}</label>
+            <div onClick={() => setActiveField('address')} className={`bg-white rounded-xl p-4 border-2 text-[18px] min-h-[56px] cursor-pointer ${activeField === 'address' ? 'border-[#006EB3]' : 'border-[#DEE2E6]'}`}>{address || <span className="text-[#6C757D]">Tap to enter address</span>}</div>
+          </div>
+          <div>
+            <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('connectionType')}</label>
+            <div className="flex gap-3">
+              {['Residential', 'Commercial'].map(type => (
+                <button key={type} onClick={() => setConnType(type)} className={`flex-1 h-[64px] rounded-xl text-[18px] font-semibold border-2 transition-colors focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2 ${connType === type ? 'border-[#006EB3] bg-[#E3F2FD] text-[#006EB3]' : 'border-[#DEE2E6] bg-white text-[#212529]'}`}>{type === 'Residential' ? t('residential') : t('commercial')}</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('uploadDocument')}</label>
+            <label className="block"><input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} />
+              <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#006EB3] text-[16px] text-[#006EB3] font-medium text-center cursor-pointer active:bg-[#E3F2FD]">{fileName || 'Tap to select document'}</div>
+            </label>
+          </div>
+        </div>
+        {activeField && <VirtualKeyboard value={activeField === 'name' ? name : address} onChange={activeField === 'name' ? setName : setAddress} maxLength={200} />}
+        <button onClick={handleSubmit} disabled={!name || !address} className="w-full mt-6 h-[72px] rounded-xl text-[22px] font-semibold bg-[#E65100] text-white disabled:bg-[#DEE2E6] disabled:text-[#6C757D] active:opacity-90 focus:outline-2 focus:outline-[#F26522] focus:outline-offset-2">{t('submit')}</button>
+      </div>
+    </div>
+  );
+}
