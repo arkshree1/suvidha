@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Home, Sun, ZoomIn, ZoomOut } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Home, Sun, ZoomIn, ZoomOut, ChevronDown, Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useLocation } from 'wouter';
-import type { Language } from '@/data/translations';
+import { languageOptions, type Language } from '@/data/translations';
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
@@ -10,6 +10,8 @@ export default function Header() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [fontSize, setFontSize] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -28,11 +30,17 @@ export default function Header() {
     }
   }, [highContrast]);
 
-  const langs: { code: Language; label: string }[] = [
-    { code: 'en', label: 'EN' },
-    { code: 'hi', label: '\u0939\u093F\u0902' },
-    { code: 'mr', label: '\u092E\u0930' },
-  ];
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const currentLang = languageOptions.find(l => l.code === language);
 
   return (
     <header className="bg-[#006EB3] text-white px-4 py-3 flex items-center justify-between gap-3 z-50" style={{ minHeight: '72px' }} data-testid="header">
@@ -58,18 +66,54 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="flex bg-white/20 rounded-lg overflow-hidden" data-testid="language-switcher">
-          {langs.map(l => (
-            <button
-              key={l.code}
-              onClick={() => setLanguage(l.code)}
-              className={`px-3 py-2 text-[14px] font-semibold transition-colors focus:outline-2 focus:outline-white focus:outline-offset-[-2px] ${language === l.code ? 'bg-white text-[#006EB3]' : 'text-white active:bg-white/10'}`}
-              aria-label={`Switch to ${l.code}`}
-              data-testid={`lang-${l.code}`}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="h-[44px] px-3 rounded-lg bg-white/20 text-white text-[14px] font-semibold flex items-center gap-2 active:bg-white/30 transition-colors focus:outline-2 focus:outline-white focus:outline-offset-2"
+            aria-label={t('selectLanguage')}
+            data-testid="language-dropdown-toggle"
+          >
+            <Globe size={18} />
+            <span className="max-w-[80px] truncate">{currentLang?.nativeLabel || 'English'}</span>
+            <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {dropdownOpen && (
+            <div
+              className="absolute right-0 top-[52px] w-[260px] max-h-[420px] overflow-y-auto bg-white rounded-xl border-2 border-[#DEE2E6] z-[100] animate-fadeIn"
+              style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
+              data-testid="language-dropdown-list"
             >
-              {l.label}
-            </button>
-          ))}
+              <div className="p-2 border-b border-[#DEE2E6]">
+                <p className="text-[13px] text-[#6C757D] font-semibold px-2 py-1">{t('selectLanguage')}</p>
+              </div>
+              <div className="p-1">
+                {languageOptions.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => {
+                      setLanguage(l.code);
+                      setDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-3 rounded-lg text-[15px] flex items-center justify-between transition-colors ${
+                      language === l.code
+                        ? 'bg-[#E3F2FD] text-[#006EB3] font-bold'
+                        : 'text-[#212529] hover:bg-[#F5F7FA] active:bg-[#E3F2FD]'
+                    }`}
+                    data-testid={`lang-${l.code}`}
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="font-semibold">{l.nativeLabel}</span>
+                      <span className="text-[13px] text-[#6C757D]">{l.label}</span>
+                    </span>
+                    {language === l.code && (
+                      <span className="w-[8px] h-[8px] rounded-full bg-[#006EB3]" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <button

@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import AnnouncementTicker from './AnnouncementTicker';
 import SessionWarningModal from '@/components/common/SessionWarningModal';
+import AryaChatbot from '@/components/common/AryaChatbot';
 import { useSession } from '@/context/SessionContext';
 
 interface KioskLayoutProps {
@@ -21,6 +22,7 @@ export default function KioskLayout({ children }: KioskLayoutProps) {
       </main>
       <Footer />
       {isSessionActive && <SessionWarningModal />}
+      <AryaChatbot />
     </div>
   );
 }

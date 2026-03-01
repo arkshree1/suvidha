@@ -180,6 +180,25 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes chatbotPulse {
+  0% { transform: scale(1); box-shadow: 0 6px 24px rgba(242,101,34,0.45); }
+  50% { transform: scale(1.08); box-shadow: 0 8px 32px rgba(242,101,34,0.6), 0 0 0 8px rgba(242,101,34,0.15); }
+  100% { transform: scale(1); box-shadow: 0 6px 24px rgba(242,101,34,0.45); }
+}
+
+@keyframes chatbotNudge {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  10% { transform: translateY(-4px); }
+  20% { transform: translateY(0); }
+  30% { transform: translateY(-2px); }
+  40% { transform: translateY(0); }
+}
+
+@keyframes pingSlow {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
@@ -190,6 +209,18 @@
 
 .animate-ticker {
   animation: ticker 40s linear infinite;
+}
+
+.animate-chatbot-pulse {
+  animation: chatbotPulse 2.5s ease-in-out infinite;
+}
+
+.animate-chatbot-nudge {
+  animation: chatbotNudge 3s ease-in-out infinite;
+}
+
+.animate-ping-slow {
+  animation: pingSlow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .high-contrast {

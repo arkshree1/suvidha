@@ -15,7 +15,12 @@ A touch-screen kiosk interface for Indian civic utility offices (C-DAC SUVIDHA C
 - 6 service modules: Electricity, Gas, Water, Municipal, Grievance, Documents
 - On-screen NumericKeypad and VirtualKeyboard components
 - Session management with 120s auto-logout
-- Multilingual support (EN/HI/MR) via translations.ts
+- Multilingual support: All 22 scheduled Indian languages + English (23 total) via dropdown selector
+  - Languages: English, Hindi, Marathi, Tamil, Bengali, Telugu, Kannada, Gujarati, Malayalam, Punjabi, Odia, Assamese, Urdu, Sanskrit, Sindhi, Nepali, Konkani, Manipuri, Bodo, Dogri, Kashmiri, Maithili, Santali
+- Arya - Voice-enabled chatbot (bottom-right corner with pulse animation)
+  - Uses Web Speech API for voice input (SpeechRecognition) and output (SpeechSynthesis)
+  - Keyword-based routing to service modules
+  - Supports multilingual speech in all Indian language locales
 - Admin panel at /admin (password: admin123)
 - Announcement ticker
 - High contrast mode + font size controls
