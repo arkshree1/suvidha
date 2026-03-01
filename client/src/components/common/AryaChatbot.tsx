@@ -41,6 +41,14 @@ export default function AryaChatbot() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen) {
+      window.speechSynthesis.cancel();
+      const greeting = t('aryaGreeting');
+      setMessages([{ role: 'arya', text: greeting }]);
+    }
+  }, [language]);
+
   const speak = useCallback((text: string) => {
     if (!ttsEnabled || !('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
