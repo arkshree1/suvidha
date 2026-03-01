@@ -5,6 +5,7 @@ import NumericKeypad from '@/components/common/NumericKeypad';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { CheckCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
+import QrUpload from '@/components/common/QrUpload';
 
 export default function MeterReading() {
   const { t } = useLanguage();
@@ -35,7 +36,7 @@ export default function MeterReading() {
               </div>
               {fileName && <div className="flex justify-between py-2 border-b border-[#F5F7FA]">
                 <span className="text-[16px] text-[#6C757D]">{t('uploadPhoto')}</span>
-                <span className="text-[16px] font-semibold">{fileName}</span>
+                <span className="text-[16px] font-semibold text-[#28A745]">{t('photoReceived')}</span>
               </div>}
             </div>
             <button onClick={() => navigate('/electricity')} className="w-full h-[64px] rounded-xl text-[20px] font-semibold bg-[#006EB3] text-white active:bg-[#005a94] focus:outline-2 focus:outline-[#F26522] focus:outline-offset-2" aria-label={t('done')} data-testid="button-done">{t('done')}</button>
@@ -55,12 +56,7 @@ export default function MeterReading() {
           <div className="text-[36px] font-bold text-[#212529]" data-testid="text-reading">{reading || '0'} <span className="text-[18px] text-[#6C757D]">kWh</span></div>
         </div>
         <div className="mb-4">
-          <label className="block">
-            <input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} data-testid="input-photo" />
-            <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#006EB3] text-[16px] text-[#006EB3] font-medium text-center cursor-pointer active:bg-[#E3F2FD]">
-              {fileName || t('uploadPhoto')}
-            </div>
-          </label>
+          <QrUpload onFileReceived={setFileName} label={t('uploadPhoto')} />
         </div>
         <NumericKeypad value={reading} onChange={setReading} maxLength={6} onSubmit={handleSubmit} submitLabel={t('submit')} />
       </div>

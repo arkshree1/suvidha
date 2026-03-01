@@ -6,6 +6,7 @@ import NumericKeypad from '@/components/common/NumericKeypad';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { CheckCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
+import QrUpload from '@/components/common/QrUpload';
 
 export default function NewConnection() {
   const { t } = useLanguage();
@@ -73,12 +74,7 @@ export default function NewConnection() {
           </div>
           <div>
             <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('uploadDocument')}</label>
-            <label className="block">
-              <input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} data-testid="input-file" />
-              <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#006EB3] text-[16px] text-[#006EB3] font-medium text-center cursor-pointer active:bg-[#E3F2FD]">
-                {fileName || 'Tap to select document'}
-              </div>
-            </label>
+            <QrUpload onFileReceived={setFileName} label={t('uploadDocument')} />
           </div>
         </div>
 

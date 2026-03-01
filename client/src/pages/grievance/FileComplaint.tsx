@@ -6,6 +6,7 @@ import VirtualKeyboard from '@/components/common/VirtualKeyboard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { CheckCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
+import QrUpload from '@/components/common/QrUpload';
 
 export default function FileComplaint() {
   const { t } = useLanguage();
@@ -72,9 +73,7 @@ export default function FileComplaint() {
           </div>
           <div>
             <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('uploadPhoto')}</label>
-            <label className="block"><input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} />
-              <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#6A1B9A] text-[16px] text-[#6A1B9A] font-medium text-center cursor-pointer">{fileName || 'Tap to select photo'}</div>
-            </label>
+            <QrUpload onFileReceived={setFileName} label={t('uploadPhoto')} accentColor="#6A1B9A" />
           </div>
           <div>
             <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('contactPref')}</label>

@@ -7,6 +7,7 @@ import NumericKeypad from '@/components/common/NumericKeypad';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { CheckCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
+import QrUpload from '@/components/common/QrUpload';
 
 interface Props {
   titleKey: string;
@@ -63,9 +64,7 @@ export default function GenericWaterForm({ titleKey, isConnection, isMeterReadin
               </div>
               <div>
                 <label className="text-[16px] font-semibold text-[#212529] mb-2 block">{t('uploadDocument')}</label>
-                <label className="block"><input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} />
-                  <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#006EB3] text-[16px] text-[#006EB3] font-medium text-center cursor-pointer">{fileName || 'Tap to select'}</div>
-                </label>
+                <QrUpload onFileReceived={setFileName} label={t('uploadDocument')} accentColor="#00695C" />
               </div>
             </>
           )}
@@ -75,9 +74,7 @@ export default function GenericWaterForm({ titleKey, isConnection, isMeterReadin
               <div className="bg-white rounded-2xl p-6 border-2 border-[#DEE2E6] text-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <div className="text-[36px] font-bold text-[#212529]">{reading || '0'} <span className="text-[18px] text-[#6C757D]">KL</span></div>
               </div>
-              <label className="block"><input type="file" className="hidden" onChange={(e) => setFileName(e.target.files?.[0]?.name || '')} />
-                <div className="bg-white rounded-xl p-4 border-2 border-dashed border-[#006EB3] text-[16px] text-[#006EB3] font-medium text-center cursor-pointer">{fileName || t('uploadPhoto')}</div>
-              </label>
+              <QrUpload onFileReceived={setFileName} label={t('uploadPhoto')} accentColor="#00695C" />
             </>
           )}
           {!isConnection && !isMeterReading && (
