@@ -4,28 +4,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useLocation } from 'wouter';
 import { languageOptions, type Language } from '@/data/translations';
 
-function AshokEmblem({ size = 40 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="46" stroke="white" strokeWidth="1.5" fill="none" opacity="0.3" />
-      <circle cx="50" cy="38" r="16" stroke="white" strokeWidth="2" fill="none" />
-      <circle cx="50" cy="38" r="6" fill="white" opacity="0.9" />
-      <path d="M50 54 L50 72" stroke="white" strokeWidth="2.5" />
-      <path d="M50 72 L34 82" stroke="white" strokeWidth="2" />
-      <path d="M50 72 L66 82" stroke="white" strokeWidth="2" />
-      <path d="M50 54 L38 48" stroke="white" strokeWidth="1.5" opacity="0.7" />
-      <path d="M50 54 L62 48" stroke="white" strokeWidth="1.5" opacity="0.7" />
-      {[0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345].map((angle) => {
-        const rad = (angle * Math.PI) / 180;
-        const x1 = 50 + 14 * Math.cos(rad);
-        const y1 = 38 + 14 * Math.sin(rad);
-        const x2 = 50 + 16.5 * Math.cos(rad);
-        const y2 = 38 + 16.5 * Math.sin(rad);
-        return <line key={angle} x1={x1} y1={y1} x2={x2} y2={y2} stroke="white" strokeWidth="1" opacity="0.6" />;
-      })}
-    </svg>
-  );
-}
+const NATIONAL_EMBLEM_URL = "https://media.istockphoto.com/id/960106268/vector/national-emblem-or-symbol.jpg?s=612x612&w=0&k=20&c=_AePCeTuI_45tixvvU1gXLliefz9dL6gVh0WZEQ8j8A=";
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
@@ -76,7 +55,7 @@ export default function Header() {
         >
           <Home size={20} />
         </button>
-        <AshokEmblem size={48} />
+        <img src={NATIONAL_EMBLEM_URL} alt="National Emblem of India" className="w-[48px] h-[48px] object-contain rounded-sm" />
         <div className="flex flex-col">
           <span className="text-[20px] font-bold leading-tight tracking-wide">{t('suvidhaKiosk')}</span>
           <span className="text-[11px] font-semibold opacity-90 tracking-wider uppercase">{t('govOfIndia')}</span>
@@ -119,11 +98,10 @@ export default function Header() {
                       setLanguage(l.code);
                       setDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-3 rounded-lg text-[15px] flex items-center justify-between transition-colors ${
-                      language === l.code
+                    className={`w-full text-left px-3 py-3 rounded-lg text-[15px] flex items-center justify-between transition-colors ${language === l.code
                         ? 'bg-[#E3F2FD] text-[#006EB3] font-bold'
                         : 'text-[#212529] hover:bg-[#F5F7FA] active:bg-[#E3F2FD]'
-                    }`}
+                      }`}
                     data-testid={`lang-${l.code}`}
                   >
                     <span className="flex items-center gap-3">
