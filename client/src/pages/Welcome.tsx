@@ -40,22 +40,6 @@ const bannerSlides: BannerSlide[] = [
     titleHi: 'नागरिक सेवाओं को सशक्त बनाना',
     subtitleHi: 'आधुनिक तकनीक के साथ - डिजिटल इंडिया।',
   },
-  {
-    type: 'gradient',
-    gradient: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)',
-    titleEn: 'Pay Bills, File Complaints',
-    subtitleEn: 'All services at your fingertips.',
-    titleHi: 'बिल भुगतान, शिकायत दर्ज करें',
-    subtitleHi: 'सभी सेवाएं आपकी उंगलियों पर।',
-  },
-  {
-    type: 'gradient',
-    gradient: 'linear-gradient(135deg, #BF360C 0%, #E65100 50%, #F57C00 100%)',
-    titleEn: 'Transparent & Accountable',
-    subtitleEn: 'Government services made simple.',
-    titleHi: 'पारदर्शी और जवाबदेह',
-    subtitleHi: 'सरकारी सेवाएं सरल बनाई गईं।',
-  },
 ];
 
 export default function Welcome() {
@@ -185,7 +169,7 @@ export default function Welcome() {
 
   return (
     <div className="flex-1 flex flex-col animate-fadeIn">
-      <div className="relative w-full overflow-hidden" style={{ height: '180px' }}>
+      <div className="relative w-full overflow-hidden" style={{ height: '20vw', minHeight: '120px', maxHeight: '220px' }}>
         {slide.type === 'image' ? (
           <img
             src={slide.image}
