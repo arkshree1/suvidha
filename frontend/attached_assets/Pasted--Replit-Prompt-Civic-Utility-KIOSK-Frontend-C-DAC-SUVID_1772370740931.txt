@@ -1,0 +1,426 @@
+# Replit Prompt: Civic Utility KIOSK Frontend (C-DAC SUVIDHA Challenge)
+
+---
+
+## PROMPT TO PASTE INTO REPLIT:
+
+---
+
+Build a **complete React.js frontend** for a **Unified Civic Services Self-Service KIOSK** for the C-DAC SUVIDHA Challenge. This is a touch-screen kiosk interface used in Indian civic utility offices — Electricity, Gas, and Water/Municipal. No backend is needed — use mock/static data throughout.
+
+---
+
+### Tech Stack
+- **Frontend:** React.js with React Router v6
+- **Styling:** Plain CSS and CSS Modules only — NO Tailwind, NO Bootstrap, NO external CSS frameworks
+- **Icons:** Lucide React
+- **State:** React useState and useContext only
+- **Backend:** Not required — use mock JSON data and hardcoded state
+
+Write all styles in `.module.css` files or a `styles/` folder with regular `.css` files. Use CSS variables for the color palette and spacing. Do not import any CSS utility library.
+
+---
+
+### Design System — UX4G (Government of India Guidelines)
+
+**CSS Variables (define in `index.css` or `variables.css`):**
+```css
+:root {
+  --color-primary: #006EB3;
+  --color-secondary: #F26522;
+  --color-bg: #F5F7FA;
+  --color-surface: #FFFFFF;
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+  --color-text: #212529;
+  --color-text-muted: #6C757D;
+  --color-border: #DEE2E6;
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  --shadow-card: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-btn: 0 2px 8px rgba(0,0,0,0.12);
+}
+```
+
+**Typography:**
+- Import `Noto Sans` and `Noto Sans Devanagari` from Google Fonts (supports Hindi script)
+- Headings: 32–48px, font-weight 700
+- Body text: 20–24px (readable from 60cm — standard kiosk viewing distance)
+- Button labels: 22–26px, font-weight 600
+
+**Touch Targets:**
+- Every button and tappable element: minimum 80×80px
+- Button minimum height: 72px
+- Gap between interactive elements: minimum 16px
+- No styles that only apply on hover — design for touch, not mouse
+
+**Icons:** All icons must be at least 32px and appear alongside text labels (never icon-only)
+
+**Accessibility:**
+- WCAG 2.1 AA colour contrast on all text
+- Visible focus ring on all interactive elements (use `outline` in CSS, do not use `outline: none`)
+- `aria-label` on every button and input
+- High-contrast mode toggle (adds a `.high-contrast` class to `<body>`, override variables inside it)
+- Font size controls: +A and -A buttons always visible in header, adjusting a `--base-font-size` variable
+
+---
+
+### Multilingual Support
+
+Add a language switcher in the header:
+1. English (default)
+2. Hindi (हिंदी)
+3. Marathi (मराठी) — placeholder translations acceptable
+
+Store the selected language in a `LanguageContext`. All screen labels, headings, and button text must come from a `translations.js` file — no hardcoded English strings in components.
+
+---
+
+### Screen Layout — Portrait Kiosk (1080×1920px)
+
+Every screen shares the same shell:
+- **Header** (fixed top): Government of India emblem + "SUVIDHA KIOSK" name, live time and date, language switcher (EN | हिं | मर), high-contrast toggle, +A / -A font size buttons, Home button
+- **Announcement ticker** (just below header): horizontally scrolling text for notices, e.g. "Power outage in Ward 5 on 15 Dec from 10am–2pm"
+- **Main area** (scrollable): page content
+- **Footer** (fixed bottom): "Need Help? Call 1800-XXX-XXXX", session countdown timer showing "Session expires in X:XX"
+
+---
+
+### Welcome Screen (Home / Auth)
+
+- Large greeting: "नमस्ते / Welcome to SUVIDHA KIOSK"
+- Below it: "Tap a card below to continue"
+- Two large login option cards side by side:
+  1. Mobile OTP — citizen enters 10-digit mobile number on the on-screen numpad, then enters any 6-digit OTP (all OTPs accepted in mock)
+  2. Aadhaar — citizen enters 12-digit Aadhaar number, mock verification passes automatically
+- A smaller "Guest / Walk-in" text button below for limited access
+- Language selection is prominent on this screen
+- Auto-logout after 120 seconds of no interaction; show a warning modal at 30 seconds remaining
+
+---
+
+### Dashboard — Service Selection
+
+After login, show a 2-column grid of service category cards. Each card has a large icon, a title, and a one-line description.
+
+Card list:
+1. ⚡ Electricity Services — Bill payment, connections, outages
+2. 🔥 Gas Services — LPG booking, PNG bill, connections
+3. 💧 Water & Sanitation — Bill payment, connections, complaints
+4. 🏙️ Municipal Services — Property tax, certificates, waste
+5. 📋 Grievance & Complaints — File or track a complaint
+6. 📄 Document Services — Receipts, certificates, history
+
+Show a welcome strip at the top: "Welcome, Ramesh Kumar | Mobile: XXXXXX7890"
+
+Each card has a distinct background gradient using CSS:
+- Electricity: `linear-gradient(135deg, #1565C0, #42A5F5)`
+- Gas: `linear-gradient(135deg, #E65100, #FFA726)`
+- Water: `linear-gradient(135deg, #00695C, #4DB6AC)`
+- Municipal: `linear-gradient(135deg, #2E7D32, #81C784)`
+- Grievance: `linear-gradient(135deg, #6A1B9A, #CE93D8)`
+- Documents: `linear-gradient(135deg, #37474F, #90A4AE)`
+
+---
+
+### Module 1: Electricity Services
+
+Sub-menu screen — same card grid style:
+
+1. **Pay Bill**
+   - Consumer number input (on-screen numpad, mock autofill with a pre-filled number)
+   - Show bill details: Name, Amount Due, Due Date, Units Consumed, Arrears
+   - Payment method: UPI / Card / Cash at Counter (radio-style selection cards)
+   - On confirm: 1.5s loading spinner → success screen with receipt
+
+2. **Consumption History**
+   - Last 6 months bar chart — build with plain CSS bars (no chart library)
+   - Below it: a table with Month, Units, Bill Amount
+
+3. **New Connection Request**
+   - Form fields: Name, Address, Connection Type (Residential / Commercial), Load Required (kW)
+   - Document upload input (captures file name only, no actual upload)
+   - Submit → show Application Reference Number
+
+4. **Submit Meter Reading**
+   - Numeric input for current reading
+   - Photo upload mock (filename capture)
+   - Confirmation screen with submitted details
+
+5. **Report Outage / Fault**
+   - Area dropdown (list of wards)
+   - Issue description (on-screen keyboard)
+   - Submit → Ticket ID shown
+
+6. **Check Connection Status**
+   - Input application number → show a horizontal step tracker:
+     Applied → Under Review → Approved → Installation Scheduled → Active
+
+---
+
+### Module 2: Gas Services
+
+Sub-menu:
+1. **Book LPG Cylinder** — cylinder type selection, delivery address, payment method, booking confirmation with booking ID
+2. **Pay PNG Bill** — same flow as electricity bill payment
+3. **New PNG Connection** — form + document upload
+4. **Register Complaint** — categories: gas leak, low pressure, billing issue
+5. **Track Delivery** — enter booking ID → show delivery status steps
+6. **Safety Information** — static screen with emergency steps for a gas leak
+
+---
+
+### Module 3: Water & Sanitation
+
+Sub-menu:
+1. **Pay Water Bill** — same bill payment flow
+2. **New Water Connection** — form + document upload
+3. **Submit Meter Reading** — same as electricity meter reading
+4. **Report Leakage / Burst Pipe** — ward/area picker + description
+5. **Sewage Complaint** — area + issue description
+6. **Water Quality Complaint** — area + issue description
+
+---
+
+### Module 4: Municipal Services
+
+Sub-menu:
+1. **Property Tax Payment** — enter property ID → show outstanding amount → payment flow
+2. **Trade License Renewal** — form + fee payment
+3. **Birth / Death Certificate** — select type, enter details, mock download/print
+4. **Waste Pickup Complaint** — area and issue type
+5. **Building Plan Status** — enter application ID → status tracker
+
+---
+
+### Module 5: Grievance & Complaints
+
+**File a Complaint:**
+- Department selector (Electricity / Gas / Water / Municipal)
+- Category dropdown (changes based on department selected)
+- Description text area (500 character limit, show counter)
+- Photo upload (mock)
+- Contact preference: SMS / WhatsApp / Both
+- Submit → show Grievance ID in format GRV-2024-XXXXX
+
+**Track a Complaint:**
+- Input field: Grievance ID or registered mobile number
+- Show a vertical status timeline:
+  Submitted (date) → Assigned to Officer (name + date) → Under Investigation (date) → Resolved (date)
+
+---
+
+### Module 6: Document Services
+
+1. **Print Receipt** — enter transaction ID → show formatted receipt → print button
+2. **Payment History** — table of last 10 payments across all services
+3. **Application Status** — list of all pending applications with current status
+4. **No Dues Certificate** — enter service type → mock generate button → certificate preview screen
+5. **Service Summary** — one screen showing all active connections and account numbers
+
+---
+
+### Receipt Screen (Shared Component)
+
+Used after every successful payment or submission:
+- Header: SUVIDHA KIOSK logo + Government of India emblem
+- Transaction details in a two-column table (label : value)
+- Static QR code placeholder image
+- Buttons:
+  - 🖨️ Print Receipt
+  - 📱 Send to Mobile (SMS)
+  - ✅ Done / Back to Home
+- Auto-redirect to home after 30 seconds (show countdown)
+
+---
+
+### Admin Panel (Route: `/admin`)
+
+Separate section, password-protected (mock password: `admin123`):
+- Login screen with password field + on-screen keyboard
+- Dashboard after login:
+  - Today's count of transactions per service (shown as number cards)
+  - Weekly usage bar chart (plain CSS bars, no library)
+  - Table of last 20 transactions: Time, Citizen ID, Service, Amount, Status
+  - Active sessions count
+  - System status row (all mock-green indicators)
+- Export button (shows browser alert: "Report downloaded")
+- Announcement manager: add or remove text entries that appear in the kiosk ticker
+
+---
+
+### Session Management
+
+- Track last interaction time using a global event listener on `window` (touch, click, keydown)
+- Auto-logout after 120 seconds of no interaction
+- At 30 seconds remaining, show a full-screen warning modal: "Your session will end in 30 seconds. Tap anywhere to continue."
+- On logout: reset all context state, navigate to `/`
+- Session countdown always visible in the footer
+
+---
+
+### On-Screen Input Components
+
+These are required — the kiosk must work without a physical keyboard:
+
+**NumericKeypad component:**
+- Buttons for 0–9, backspace, clear
+- Large square buttons (minimum 80×80px each)
+- Used for mobile number, Aadhaar, consumer numbers, OTP, meter readings
+
+**VirtualKeyboard component:**
+- Full QWERTY layout
+- Shift for uppercase, backspace, space, clear
+- Large keys (minimum 60px height)
+- Used for name fields, address, complaint description
+
+Both components take an `onChange` callback and a `value` prop.
+
+---
+
+### File Structure
+
+```
+src/
+├── styles/
+│   ├── variables.css
+│   ├── global.css
+│   └── animations.css
+├── components/
+│   ├── layout/
+│   │   ├── Header.jsx + Header.module.css
+│   │   ├── Footer.jsx + Footer.module.css
+│   │   ├── Breadcrumb.jsx + Breadcrumb.module.css
+│   │   └── AnnouncementTicker.jsx
+│   ├── common/
+│   │   ├── ServiceCard.jsx + ServiceCard.module.css
+│   │   ├── NumericKeypad.jsx + NumericKeypad.module.css
+│   │   ├── VirtualKeyboard.jsx + VirtualKeyboard.module.css
+│   │   ├── ReceiptScreen.jsx
+│   │   ├── StatusTracker.jsx
+│   │   ├── LoadingSpinner.jsx
+│   │   ├── CssBarChart.jsx
+│   │   └── SessionTimer.jsx
+│   └── modals/
+│       ├── SuccessModal.jsx
+│       ├── ErrorModal.jsx
+│       └── SessionWarningModal.jsx
+├── pages/
+│   ├── Welcome.jsx
+│   ├── Dashboard.jsx
+│   ├── electricity/
+│   │   ├── ElectricityMenu.jsx
+│   │   ├── PayBill.jsx
+│   │   ├── ConsumptionHistory.jsx
+│   │   ├── NewConnection.jsx
+│   │   ├── MeterReading.jsx
+│   │   ├── ReportOutage.jsx
+│   │   └── ConnectionStatus.jsx
+│   ├── gas/
+│   ├── water/
+│   ├── municipal/
+│   ├── grievance/
+│   │   ├── FileComplaint.jsx
+│   │   └── TrackComplaint.jsx
+│   ├── documents/
+│   └── admin/
+│       ├── AdminLogin.jsx
+│       └── AdminDashboard.jsx
+├── context/
+│   ├── AuthContext.jsx
+│   ├── LanguageContext.jsx
+│   └── SessionContext.jsx
+├── data/
+│   └── mockData.js
+├── utils/
+│   └── translations.js
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+### CSS Animations (define in `animations.css`, no libraries)
+
+- `fadeIn`: opacity 0 → 1, used on every page mount
+- `slideUp`: translateY(20px) → 0, used on cards loading in
+- `pulse`: scale 1 → 1.05 → 1, looping, used on "Tap to Start" on the welcome screen
+- `ripple`: expanding circle on button press, triggered by adding a `.ripple` class via JS
+- `ticker`: continuous horizontal scroll for the announcement banner
+
+---
+
+### Mock Data (`mockData.js`)
+
+Fill this file with complete, realistic data:
+
+```js
+export const mockCitizen = {
+  name: "Ramesh Kumar",
+  mobile: "9876543210",
+  aadhaar: "XXXX-XXXX-7890",
+  accounts: {
+    electricity: {
+      consumerId: "MH-042-789456",
+      area: "Pune Ward 12",
+      outstanding: 1245.50,
+      dueDate: "20 Dec 2024",
+      units: 312
+    },
+    gas: {
+      customerId: "PNG-45678",
+      type: "PNG",
+      outstanding: 0
+    },
+    water: {
+      accountId: "PCB-98765",
+      outstanding: 340.00,
+      dueDate: "25 Dec 2024"
+    }
+  }
+};
+
+export const mockPaymentHistory = [
+  // 10 objects: { id, date, service, description, amount, status }
+];
+
+export const mockGrievances = [
+  // 5 objects: { id, department, category, description, status, filedDate, updatedDate, officerName }
+];
+
+export const mockConsumption = [
+  { month: "Jul 2024", units: 280, amount: 1120 },
+  { month: "Aug 2024", units: 310, amount: 1245 },
+  { month: "Sep 2024", units: 295, amount: 1180 },
+  { month: "Oct 2024", units: 260, amount: 1040 },
+  { month: "Nov 2024", units: 320, amount: 1280 },
+  { month: "Dec 2024", units: 312, amount: 1245 }
+];
+
+export const mockAdminTransactions = [
+  // 20 objects for admin panel table
+];
+```
+
+---
+
+### Build Order
+
+1. Set up React app, install React Router v6 and Lucide React only — nothing else
+2. Create `styles/variables.css`, `global.css`, `animations.css`
+3. Build context providers: AuthContext, LanguageContext, SessionContext
+4. Create `translations.js` with EN / HI / MR strings for all labels
+5. Build Header, Footer, AnnouncementTicker, Breadcrumb
+6. Build NumericKeypad and VirtualKeyboard components
+7. Build Welcome screen with mock OTP and Aadhaar flows
+8. Build Dashboard with the 6 service cards
+9. Build all Electricity sub-pages — this is the reference module, all others follow the same pattern
+10. Build Gas, Water, Municipal modules
+11. Build Grievance portal (file + track)
+12. Build Document services
+13. Build Admin login and dashboard
+14. Wire up session auto-logout across all pages
+15. Add CSS page transition animations
+
+Do not move to the next step until the current one renders without console errors.
