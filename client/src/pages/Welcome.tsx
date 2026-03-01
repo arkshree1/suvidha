@@ -174,7 +174,7 @@ export default function Welcome() {
 
   return (
     <div className="flex-1 flex flex-col animate-fadeIn">
-      <div className="relative w-full overflow-hidden" style={{ height: '150px' }}>
+      <div className="relative w-full overflow-hidden" style={{ height: '180px' }}>
         <div
           className="absolute inset-0 flex items-center justify-center transition-all duration-700"
           style={{ background: slide.gradient }}
