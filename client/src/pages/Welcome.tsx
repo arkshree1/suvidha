@@ -169,12 +169,12 @@ export default function Welcome() {
 
   return (
     <div className="flex-1 flex flex-col animate-fadeIn">
-      <div className="relative w-full overflow-hidden" style={{ height: '20vw', minHeight: '120px', maxHeight: '220px' }}>
+      <div className="relative w-full overflow-hidden flex-shrink-0" style={{ height: '18vw', minHeight: '130px', maxHeight: '200px' }}>
         {slide.type === 'image' ? (
           <img
             src={slide.image}
             alt="Government scheme banner"
-            className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700"
+            className="absolute inset-0 w-full h-full object-fill transition-all duration-700"
             data-testid="img-carousel-banner"
           />
         ) : (

@@ -17,7 +17,7 @@ export default function KioskLayout({ children }: KioskLayoutProps) {
     <div className="flex flex-col min-h-screen bg-[#F5F7FA]" style={{ fontFamily: "'Noto Sans', 'Noto Sans Devanagari', sans-serif" }}>
       <Header />
       <AnnouncementTicker />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto flex flex-col">
         {children}
       </main>
       <Footer />
