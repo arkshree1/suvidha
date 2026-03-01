@@ -7,7 +7,7 @@ import ServiceCard from '@/components/common/ServiceCard';
 
 export default function Dashboard() {
   const { t } = useLanguage();
-  const { citizen, logout } = useAuth();
+  const { citizen, isGuest, logout } = useAuth();
   const { setSessionActive } = useSession();
   const [, navigate] = useLocation();
 
@@ -31,7 +31,9 @@ export default function Dashboard() {
       <div className="bg-white rounded-2xl p-4 mb-6 flex items-center justify-between border-2 border-[#DEE2E6]" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }} data-testid="welcome-strip">
         <div>
           <h2 className="text-[20px] font-bold text-[#212529]">{t('welcomeUser', { name: citizen?.name || '' })}</h2>
-          <p className="text-[14px] text-[#6C757D]">{t('mobile')}: {citizen?.mobile ? citizen.mobile.slice(0, 6) + '****' : ''}</p>
+          {!isGuest && citizen?.mobile && (
+            <p className="text-[14px] text-[#6C757D]">{t('mobile')}: {citizen.mobile.slice(0, 6) + '****'}</p>
+          )}
         </div>
         <button
           onClick={handleLogout}
