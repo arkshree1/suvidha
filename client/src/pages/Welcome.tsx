@@ -174,29 +174,28 @@ export default function Welcome() {
 
   return (
     <div className="flex-1 flex flex-col animate-fadeIn">
-      <div className="relative w-full overflow-hidden" style={{ minHeight: '240px' }}>
+      <div className="relative w-full overflow-hidden" style={{ height: '150px' }}>
         <div
           className="absolute inset-0 flex items-center justify-center transition-all duration-700"
           style={{ background: slide.gradient }}
         >
           <div className="absolute inset-0 opacity-10">
-            <svg viewBox="0 0 800 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+            <svg viewBox="0 0 800 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#grid)" />
-              <circle cx="650" cy="80" r="120" fill="white" opacity="0.08" />
-              <circle cx="150" cy="220" r="80" fill="white" opacity="0.05" />
-              <path d="M0,250 Q200,180 400,220 T800,200 V300 H0Z" fill="white" opacity="0.06" />
+              <circle cx="650" cy="60" r="90" fill="white" opacity="0.08" />
+              <circle cx="150" cy="160" r="60" fill="white" opacity="0.05" />
             </svg>
           </div>
           <div className="relative z-10 text-center px-8">
-            <h2 className="text-[32px] font-bold text-white mb-2 drop-shadow-lg" data-testid="text-carousel-title">
+            <h2 className="text-[24px] font-bold text-white mb-1 drop-shadow-lg" data-testid="text-carousel-title">
               {isHindi ? slide.titleHi : slide.titleEn}
             </h2>
-            <p className="text-[20px] text-white/90 font-medium drop-shadow">
+            <p className="text-[16px] text-white/90 font-medium drop-shadow">
               {isHindi ? slide.subtitleHi : slide.subtitleEn}
             </p>
           </div>
@@ -204,27 +203,27 @@ export default function Welcome() {
 
         <button
           onClick={prevSlide}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-[44px] h-[44px] rounded-full bg-black/30 flex items-center justify-center text-white active:bg-black/50 transition-colors z-20"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-full bg-black/30 flex items-center justify-center text-white active:bg-black/50 transition-colors z-20"
           aria-label="Previous slide"
           data-testid="button-prev-slide"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={20} />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-[44px] h-[44px] rounded-full bg-black/30 flex items-center justify-center text-white active:bg-black/50 transition-colors z-20"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-full bg-black/30 flex items-center justify-center text-white active:bg-black/50 transition-colors z-20"
           aria-label="Next slide"
           data-testid="button-next-slide"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={20} />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
           {bannerSlides.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentSlide(i)}
-              className={`rounded-full transition-all ${i === currentSlide ? 'w-[12px] h-[12px] bg-white' : 'w-[10px] h-[10px] bg-white/50'}`}
+              className={`rounded-full transition-all ${i === currentSlide ? 'w-[10px] h-[10px] bg-white' : 'w-[8px] h-[8px] bg-white/50'}`}
               aria-label={`Slide ${i + 1}`}
               data-testid={`dot-slide-${i}`}
             />
@@ -232,57 +231,57 @@ export default function Welcome() {
         </div>
       </div>
 
-      <div className="flex-1 px-6 py-8 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 lg:gap-12">
-        <div className="text-center lg:text-left lg:flex-1 lg:max-w-[400px]">
-          <h1 className="text-[38px] font-bold text-[#212529] mb-1 leading-tight" data-testid="text-namaste">
+      <div className="flex-1 px-6 py-4 flex flex-col lg:flex-row items-center lg:items-center justify-center gap-6 lg:gap-10">
+        <div className="text-center lg:text-left lg:flex-1 lg:max-w-[380px]">
+          <h1 className="text-[32px] font-bold text-[#212529] mb-1 leading-tight" data-testid="text-namaste">
             {t('namaste')} / Welcome
           </h1>
-          <h2 className="text-[24px] font-bold text-[#006EB3] mb-3">{t('welcome')}</h2>
-          <p className="text-[18px] text-[#6C757D]">{t('tapToContinue')}</p>
+          <h2 className="text-[20px] font-bold text-[#006EB3] mb-2">{t('welcome')}</h2>
+          <p className="text-[16px] text-[#6C757D]">{t('tapToContinue')}</p>
         </div>
 
-        <div className="w-full max-w-[480px] lg:max-w-[420px]">
-          <div className="grid grid-cols-2 gap-4 mb-5">
+        <div className="w-full max-w-[420px] lg:max-w-[380px]">
+          <div className="grid grid-cols-2 gap-3 mb-3">
             <button
               onClick={() => setStep('mobile-input')}
-              className="bg-white rounded-2xl p-5 border-2 border-[#DEE2E6] flex flex-col items-center justify-center gap-3 min-h-[170px] active:border-[#006EB3] active:bg-[#F0F7FF] transition-colors focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
+              className="bg-white rounded-2xl p-4 border-2 border-[#DEE2E6] flex flex-col items-center justify-center gap-2 min-h-[130px] active:border-[#006EB3] active:bg-[#F0F7FF] transition-colors focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
               style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
               aria-label={t('mobileOtp')}
               data-testid="card-mobile-otp"
             >
-              <div className="w-[64px] h-[64px] rounded-2xl bg-[#E3F2FD] flex items-center justify-center">
-                <Smartphone size={32} className="text-[#006EB3]" />
+              <div className="w-[52px] h-[52px] rounded-xl bg-[#E3F2FD] flex items-center justify-center">
+                <Smartphone size={26} className="text-[#006EB3]" />
               </div>
               <div className="text-center">
-                <h3 className="text-[18px] font-bold text-[#212529] mb-1">{t('mobileOtp')}</h3>
-                <p className="text-[13px] text-[#6C757D] leading-snug">{t('mobileOtpDesc')}</p>
+                <h3 className="text-[16px] font-bold text-[#212529] mb-0.5">{t('mobileOtp')}</h3>
+                <p className="text-[12px] text-[#6C757D] leading-snug">{t('mobileOtpDesc')}</p>
               </div>
             </button>
 
             <button
               onClick={() => setStep('aadhaar-input')}
-              className="bg-white rounded-2xl p-5 border-2 border-[#DEE2E6] flex flex-col items-center justify-center gap-3 min-h-[170px] active:border-[#006EB3] active:bg-[#F0F7FF] transition-colors focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
+              className="bg-white rounded-2xl p-4 border-2 border-[#DEE2E6] flex flex-col items-center justify-center gap-2 min-h-[130px] active:border-[#006EB3] active:bg-[#F0F7FF] transition-colors focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
               style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
               aria-label={t('aadhaarLogin')}
               data-testid="card-aadhaar"
             >
-              <div className="w-[64px] h-[64px] rounded-2xl bg-[#FFF3E0] flex items-center justify-center">
-                <ShieldCheck size={32} className="text-[#F26522]" />
+              <div className="w-[52px] h-[52px] rounded-xl bg-[#FFF3E0] flex items-center justify-center">
+                <ShieldCheck size={26} className="text-[#F26522]" />
               </div>
               <div className="text-center">
-                <h3 className="text-[18px] font-bold text-[#212529] mb-1">{t('aadhaarLogin')}</h3>
-                <p className="text-[13px] text-[#6C757D] leading-snug">{t('aadhaarDesc')}</p>
+                <h3 className="text-[16px] font-bold text-[#212529] mb-0.5">{t('aadhaarLogin')}</h3>
+                <p className="text-[12px] text-[#6C757D] leading-snug">{t('aadhaarDesc')}</p>
               </div>
             </button>
           </div>
 
           <button
             onClick={() => handleLogin('guest')}
-            className="w-full flex items-center justify-center gap-2 text-[17px] text-[#006EB3] font-semibold py-3 active:opacity-80 focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
+            className="w-full flex items-center justify-center gap-2 text-[16px] text-[#006EB3] font-semibold py-2 active:opacity-80 focus:outline-2 focus:outline-[#006EB3] focus:outline-offset-2"
             aria-label={t('guestAccess')}
             data-testid="button-guest"
           >
-            <UserCircle size={22} />
+            <UserCircle size={20} />
             {t('guestAccess')}
           </button>
         </div>
