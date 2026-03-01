@@ -19,7 +19,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--base-font-size', `${fontSize}%`);
+    document.documentElement.style.fontSize = `${fontSize}%`;
   }, [fontSize]);
 
   useEffect(() => {
