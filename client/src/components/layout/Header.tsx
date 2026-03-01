@@ -68,6 +68,14 @@ export default function Header() {
   return (
     <header className="bg-[#006EB3] text-white px-4 py-2 flex items-center justify-between gap-3 z-50" style={{ minHeight: '72px' }} data-testid="header">
       <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="w-[40px] h-[40px] rounded-lg bg-white/20 flex items-center justify-center active:bg-white/30 transition-colors focus:outline-2 focus:outline-white focus:outline-offset-2"
+          aria-label={t('home')}
+          data-testid="button-home"
+        >
+          <Home size={20} />
+        </button>
         <AshokEmblem size={48} />
         <div className="flex flex-col">
           <span className="text-[20px] font-bold leading-tight tracking-wide">{t('suvidhaKiosk')}</span>
@@ -158,14 +166,6 @@ export default function Header() {
           <ZoomOut size={18} />
         </button>
 
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="w-[36px] h-[36px] rounded-lg bg-white/20 flex items-center justify-center active:bg-white/30 transition-colors focus:outline-2 focus:outline-white focus:outline-offset-2"
-          aria-label={t('home')}
-          data-testid="button-home"
-        >
-          <Home size={18} />
-        </button>
       </div>
     </header>
   );
